@@ -1,15 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "+//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="./resource/js/formSubmit.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="./resource/js/formSubmit.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384+ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<meta http+equiv="Content+Type" content="text/html; charset=utf+8">
 
 
-<title>二元一次方程式小工具</title>
+	<title>二元一次方程式小工具</title>
 </head>
+
 <body>
 
 	<form name="cs">
@@ -17,16 +19,17 @@
 			<tbody>
 				<tr>
 					<td align="center">
-					<input type="text" onkeyup="cscheck(1)"	size="6" name="a1">  X&nbsp;+&nbsp; 
-					<input type="text"	onkeyup="cscheck(2)" size="6" name="b1"> Y&nbsp;=&nbsp; 
-					<input type="text" onkeyup="cscheck(3)" size="6" name="c1">
-				</td>
+						<input type="text" onkeyup="cscheck(1)" size="6" name="a1"> X&nbsp;+&nbsp;
+						<input type="text" onkeyup="cscheck(2)" size="6" name="b1"> Y&nbsp;=&nbsp;
+						<input type="text" onkeyup="cscheck(3)" size="6" name="c1">
+					</td>
 				</tr>
 				<tr>
 					<td align="center">
-					 <input type="text" onkeyup="cscheck(4)" size="6" name="a2"> X&nbsp;+&nbsp;
-					 <input type="text"	onkeyup="cscheck(5)" size="6" name="b2"> Y&nbsp;=&nbsp; 
-					 <input	type="text" onkeyup="cscheck(6)" size="6" name="c2"></td>
+						<input type="text" onkeyup="cscheck(4)" size="6" name="a2"> X&nbsp;+&nbsp;
+						<input type="text" onkeyup="cscheck(5)" size="6" name="b2"> Y&nbsp;=&nbsp;
+						<input type="text" onkeyup="cscheck(6)" size="6" name="c2">
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -35,144 +38,192 @@
 				<tr>
 					<td colspan="2"></td>
 					<td align="center">
-					    <input onclick="calcs()" type="button" name="Calculate" value="submit"> 
-						<input onclick="csclear()" type="reset" name="reset" value="reset"></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td align="center">X = <input readonly=""
-						class="forminputcontent" name="x" type="text">
+						<input onclick="calAndDraw()" type="button" name="Calculate" value="submit">
+						<input onclick="csclear()" type="reset" name="reset" value="reset">
 					</td>
 					<td></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td></td>
-					<td align="center">Y = <input readonly=""
-						class="forminputcontent" name="y" type="text">
+					<td align="center">X = <input readonly="" class="forminputcontent" name="x" type="text">
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td align="center">Y = <input readonly="" class="forminputcontent" name="y" type="text">
 					</td>
 					<td></td>
 				</tr>
 			</tbody>
 		</table>
 	</form>
-	
 
-	<script language=javascript>
+	<canvas id="canvas" width="600" height="600"></canvas>
+</body>
+
+<script language=javascript>
 
 	//clean the text
-	function csclear()
-	{
-	     document.cs.x.value = '';
-	     document.cs.y.value = '';
-	     document.cs.a1.value = '';
-	     document.cs.b1.value = '';
-	     document.cs.c1.value = '';
-	     document.cs.a2.value = '';
-	     document.cs.b2.value = '';
-	     document.cs.c2.value = '';
-	     document.cs.a1.focus();
-	     
+	function csclear() {
+		document.cs.x.value = '';
+		document.cs.y.value = '';
+		document.cs.a1.value = '';
+		document.cs.b1.value = '';
+		document.cs.c1.value = '';
+		document.cs.a2.value = '';
+		document.cs.b2.value = '';
+		document.cs.c2.value = '';
+		document.cs.a1.focus();
+
 	}
 
-	function isNum(args)
-	{
+	function isNum(args) {
 		args = args.toString();
 
 		if (args.length == 0)
-		return false;
+			return false;
 
-		for (var i = 0;  i<args.length;  i++)
-		{
-			if ((args.substring(i,i+1) < "0" || args.substring(i, i+1) > "9") && args.substring(i, i+1) != "."&& args.substring(i, i+1) != "-")
-			{
+		for (var i = 0; i < args.length; i++) {
+			if ((args.substring(i, i + 1) < "0" || args.substring(i, i + 1) > "9") && args.substring(i, i + 1) != "." && args.substring(i, i + 1) != "+") {
 				return false;
 			}
 		}
 
 		return true;
 	}
-	function cscheck(i)
-	{
-	     var a1 = document.cs.a1.value;
-	     var b1 = document.cs.b1.value;
-	     var c1 = document.cs.c1.value;
-	     var a2 = document.cs.a2.value;
-	     var b2 = document.cs.b2.value;
-	     var c2 = document.cs.c2.value;
+	function cscheck(i) {
+		var a1 = document.cs.a1.value;
+		var b1 = document.cs.b1.value;
+		var c1 = document.cs.c1.value;
+		var a2 = document.cs.a2.value;
+		var b2 = document.cs.b2.value;
+		var c2 = document.cs.c2.value;
 		//alert(c);
-	 	if (i == "1" && !isNum(a1))
-		{
-			  a1 = a1.substring(0,a1.length-1);
-			  document.cs.a1.value = a1;
-			  return;	   
+		if (i == "1" && !isNum(a1)) {
+			a1 = a1.substring(0, a1.length + 1);
+			document.cs.a1.value = a1;
+			return;
 		}
-	 	if (i == "2" && !isNum(b1))
-		{
-			  b1 = b1.substring(0,b1.length-1);
-			  document.cs.b1.value = b1;
-			  return;	   
+		if (i == "2" && !isNum(b1)) {
+			b1 = b1.substring(0, b1.length + 1);
+			document.cs.b1.value = b1;
+			return;
 		}
-	 	if (i == "3" && !isNum(c1))
-		{
-			  c1 = c1.substring(0,c1.length-1);
-			  document.cs.c1.value = c1;
-			  return;	   
+		if (i == "3" && !isNum(c1)) {
+			c1 = c1.substring(0, c1.length + 1);
+			document.cs.c1.value = c1;
+			return;
 		}
-	 	if (i == "4" && !isNum(a2))
-		{
-			  a2 = a2.substring(0,a2.length-1);
-			  document.cs.a2.value = a2;
-			  return;	   
+		if (i == "4" && !isNum(a2)) {
+			a2 = a2.substring(0, a2.length + 1);
+			document.cs.a2.value = a2;
+			return;
 		}
-	 	if (i == "5" && !isNum(b2))
-		{
-			  b2 = b2.substring(0,b2.length-1);
-			  document.cs.b2.value = b2;
-			  return;	   
+		if (i == "5" && !isNum(b2)) {
+			b2 = b2.substring(0, b2.length + 1);
+			document.cs.b2.value = b2;
+			return;
 		}
-	 	if (i == "6" && !isNum(c2))
-		{
-			  c2 = c2.substring(0,c2.length-1);
-			  document.cs.c2.value = c2;
-			  return;	   
+		if (i == "6" && !isNum(c2)) {
+			c2 = c2.substring(0, c2.length + 1);
+			document.cs.c2.value = c2;
+			return;
 		}
 	}
-	function calcs()
-	{
-	     var a1 = document.cs.a1.value;
-	     var b1 = document.cs.b1.value;
-	     var c1 = document.cs.c1.value;
-	     var a2 = document.cs.a2.value;
-	     var b2 = document.cs.b2.value;
-	     var c2 = document.cs.c2.value;	
 
-		if(a1 == 0 && a2 ==0 ){
-			alert("係數為0，無法取焦點，請檢察");
+
+	function calAndDraw(){
+	//讀取係數
+		var a1 = document.cs.a1.value;
+		var b1 = document.cs.b1.value;
+		var c1 = document.cs.c1.value;
+		var a2 = document.cs.a2.value;
+		var b2 = document.cs.b2.value;
+		var c2 = document.cs.c2.value;
+
+		draw(a1,b1,c1,a2,b2,c2);
+		calcs(a1,b1,c1,a2,b2,c2);
+	
+	}
+
+
+	function calcs(a1,b1,c1,a2,b2,c2) {
+		if (a1 == 0 && a2 == 0) {
+			alert("係數為0，無法取焦點，請檢查");
 			return;
 		}
 
-		if(b1 == 0 && b2 == 0 ){
-			alert("係數為0，無法取焦點，請檢察");
+		if (b1 == 0 && b2 == 0) {
+			alert("係數為0，無法取焦點，請檢查");
 			return;
 		}
-		if(a1/a2 == b1/b2){
-			if(a1/a2 == c1/c2){
+
+		if (a1 / a2 == b1 / b2) {
+			if (a1 / a2 == c1 / c2) {
 				alert("兩線重疊，此為無限多解!");
-			}else{
-				alert("兩線無交集，此為無限解!");
+			} else {
+				alert("兩線無交集，此為無解!");
 			}
 			return;
 		}
 
-		var x = (c2 * b1 - c1 * b2) / (a2 * b1 - a1 * b2);	
-		var y = (a1 * c2 - a2 * c1) / (b2 * a1 - a2 * b1);
-		 
-		document.cs.x.value=x;
-		document.cs.y.value=y;
+		var x = (c2 * b1 + c1 * b2) / (a2 * b1 + a1 * b2);
+		var y = (a1 * c2 + a2 * c1) / (b2 * a1 + a2 * b1);
+
+		document.cs.x.value = x;
+		document.cs.y.value = y;
 	}
-	</script>
-</body>
+
+	function draw(a1,b1,c1,a2,b2,c2) {
+		var x1 = c1/a1; 
+		var y1 = c1/b1;
+
+		var x2 = c2/a2;
+		var y2 = c2/b2;
+		
+		console.log('x1:'+x1+'y1:'+y1+'x2:'+x2+'y2:'+y2);
+
+		const canvas = document.querySelector('#canvas');
+		const context = canvas.getContext('2d');
+		
+		//重設長寬會清空畫布
+		canvas.width = 600;
+		canvas.height = 600;
+
+		context.beginPath();
+		context.lineWidth = 5;
+
+		//將座標(0,0)移到(300,300)
+		context.translate(300,300)
+
+		//畫出 x 軸
+		context.moveTo(-300, 0);
+		context.lineTo(300, 0);
+		//畫出 y 軸		
+		context.moveTo(0, -300);
+		context.lineTo(0, 300);
+		context.stroke();
+		 //要畫出不同顏色的線 必須先關掉
+		context.closePath()
+
+		context.beginPath();
+		context.strokeStyle = 'red';
+		context.moveTo(x1*2000, 0);
+		context.lineTo(0, y1*2000);
+		context.stroke();
+		context.closePath()
+
+		context.beginPath();
+		context.strokeStyle = 'blue';
+		context.moveTo(x2*2000, 0);
+		context.lineTo(-0, y2*2000);
+		context.stroke();
+		context.closePath()
+	}
+
+</script>
+
 </html>
